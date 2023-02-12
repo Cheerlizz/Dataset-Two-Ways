@@ -169,7 +169,7 @@ for(let i = 0; i < 40; i++){
         let angle = random(2*PI);
         pg.rotate(angle);
         let spot = new createVector(random(0,0.35*pg.width),random(0,0.35*pg.height));
-        pg.image(shadows[i].imageUri,spot.x,spot.y,0.8*shadows[i].diameter,0.8*shadows[i].diameter);
+        pg.image(shadows[i].imageUri,spot.x,spot.y,1.5*shadows[i].diameter,1.5*shadows[i].diameter);
         //the center of pg
         // pg.fill(angle%255,0,0);
         // pg.circle(0,0,50);
