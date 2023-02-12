@@ -14,20 +14,29 @@ class Shadow {
     this.locked = false;
     this.catchPhrase;
     this.imageUri;
+    this.normalOff=random(1);
+    this.emergencyOff=random(1);
 
   }
 
   caught(){
     let d = dist(this.location.x, this.location.y, mouseX, mouseY);
+    let time = millis()/10;
+    this.normalOff = this.normalOff + 0.01;
+    console.log("normal",this.normalOff);
+    this.emergencyOff=this.emergencyOff + 0.4;
+    let n= fract(noise(this.normalOff));
+    let e = fract(noise(this.emergencyOff));
     if (d<this.diameter/2) {
       this.overBox = true;
       if (!this.locked) {
         this.outline=color(255);
-        this.color= color(244, 122, 158);
+        this.color= color(234, 143, 234,e*255);
       }
     } else {
-      this.outline= color(156, 39, 176);
-      this.color= color(244, 122, 158);
+      this.outline= color(54, 47, 217);
+      this.color= color(n*255, 241, 223,200);
+      console.log("n",n);
       this.overBox = false;
     }
   }
@@ -58,12 +67,10 @@ class Shadow {
       this.location.y = height;
       this.velocity.y = this.velocity.y * -1; 
     }
-
-  
   
     // Display circle at location vector
     //noStroke();
-    strokeWeight(4);
+    strokeWeight(2);
     stroke(this.outline);
     fill(this.color);
     circle(this.location.x,this.location.y,this.diameter);
@@ -82,7 +89,7 @@ function preload() {
 function setup() {
   canvas = createCanvas(windowWidth, windowHeight);
   canvas.parent("sketch-container"); //move our canvas inside this HTML element
-  pg = createGraphics(0.5*width, 0.5*width);
+  pg = createGraphics(0.6*width, 0.6*width);
   
 
   fetch("./json/sea.json").then(function(response) {
@@ -93,8 +100,7 @@ function setup() {
     
     seacreatures = data.seacreatures;
 
-    //using no Loop? you can just call your function once the data is loaded
-    //drawChart();
+    //set the object properties
     drawSetting();
   
   }).catch(function(err) {
@@ -120,26 +126,36 @@ function draw() {
   stroke(255);
   strokeWeight(3);
 
-  push();
-  //pg.translate(pg.width/2,pg.height/2);
+  pg.push();
+  pg.translate(pg.width/2,pg.height/2);
   pg.noFill();
   pg.rectMode(CENTER);
-  pg.rect(pg.width/2,pg.height/2,pg.width,pg.height);
+  //use this rectangle to show the border of pg
+  //pg.rect(pg.width/2,pg.height/2,pg.width,pg.height);
   pg.imageMode(CENTER);
 
   //textFont('Segoe UI Semibold');
-  textSize(32);
-  textFont('Segoe UI Black');
-  text("Sea Creatures in Animal Crossing: New Horizons",100,60,300,200);
-  textFont('Segoe UI Semibold');
-  textSize(12);
-  text("This graph compares two features of each sea creature in the social simulation video game, Animal Crossing: New Horizons.",100,200,300,200);
-  text("How to read: The height of each bar represents the selling price, and the color stands for the shadow in the water, the darker the bar, the larger the shadow of this creature in the water.",100,250,300,200);
+  stroke(54, 47, 217);
+  fill(54, 47, 217);
+  textSize(40);
+  //textFont('Segoe UI Black');
+  textFont('Lucida Console');
+  textAlign(LEFT,TOP);
+  text("Sea Creatures in Animal Crossing: New Horizons",width*0.04,height*0.5,width*0.01);
+  textFont('Segoe UI Semilight');
+  textSize(30);
+  noStroke();
+  textAlign(RIGHT,TOP);
+  fill(234, 143, 234);
+  //text("This graph compares two features of each sea creature in the social simulation video game, Animal Crossing: New Horizons.",100,200,300,200);
+  text("Press on the running sea creatures to catch them! Please refer to this bar chart to have a look of the value of each creature and the corresponding shadow size via the link here.Enjoy your fisher time!",width*0.85,height*0.12,map(width,0,1500,600,200));
+  let a = createA('http://p5js.org/', 'this is a link');
+  a.position(0, 0);
   image(bubble,width/2,height/2,0.8*width,0.8*width);
 
 for(let i = 0; i < 40; i++){
 
-    //set the size of each creature
+    //update the status
 
     shadows[i].caught();
     shadows[i].update();
@@ -147,53 +163,47 @@ for(let i = 0; i < 40; i++){
     if(mouseIsPressed === true){
       if (shadows[i].overBox) {
         shadows[i].locked = true;
-        shadows[i].color = color(255,0,0);
-        let token=floor(random(4));
+        shadows[i].color = color(234, 143, 234);
 
-        // if(token==0){
-        //   pg.image(shadows[i].imageUri,0,0,shadows[i].diameter,shadows[i].diameter,0,0,320,320);
-        // }
-        // else if(token==1){
-        //   pg.image(shadows[i].imageUri,pg.width/2,0,shadows[i].diameter,shadows[i].diameter, 320,0,320,320);
-        // }
-        // else if(token==2){
-        //   pg.image(shadows[i].imageUri,0,pg.height/2,shadows[i].diameter,shadows[i].diameter, 0,320,320,320);
-        // }
-        // else{
-        //   pg.image(shadows[i].imageUri,pg.width/2,pg.height/2,shadows[i].diameter,shadows[i].diameter,320,320,320,320);
-        // }
         push();
-        noLoop();
-        //pg.translate(pg.width/6,pg.height/6);
-        //let time = millis();
-        //pg.rotate(time / 1000);
-        //rotateZ(time / 1234);
-        //pg.image(shadows[i].imageUri,random(0.3*pg.width,0.8*pg.width),random(0.3*pg.height,0.8*pg.height),shadows[i].diameter,shadows[i].diameter);
-        let spot = new createVector(random(0,pg.width),random(0,pg.height));
-        pg.image(shadows[i].imageUri,spot.x,spot.y,shadows[i].diameter,shadows[i].diameter);
-        //console.log("pg.width",pg.width);
-        //console.log(spot.x,spot.y);
-
-        //pg.fill(time%255,0,0);
-        pg.circle(0,0,50);
-        pop();
         
-        //image(shadows[i].imageUri,shadows[i].location.x,shadows[i].location.y, 50, 50);
-        //image(shadows[i].imageUri,random(width),random(height), shadows[i].diameter, shadows[i].diameter);
-        // text(shadows[i].catchPhrase,100,400,300,200);
-        //circle(shadows[i].location.x,shadows[i].location.y,100);
+        let angle = random(2*PI);
+        pg.rotate(angle);
+        let spot = new createVector(random(0,0.35*pg.width),random(0,0.35*pg.height));
+        pg.image(shadows[i].imageUri,spot.x,spot.y,0.8*shadows[i].diameter,0.8*shadows[i].diameter);
+        //the center of pg
+        // pg.fill(angle%255,0,0);
+        // pg.circle(0,0,50);
+        pop();
+        //rectMode(CENTER);
+
+        //calculate the size of catchPhrase
+        let rectX = width/5;
+        let rectY =0.3*rectX;
+        //noFill();
+        fill(16, 161, 157);
+        strokeWeight(4);
+        stroke(54, 47, 217);
+        rect(width*0.2-rectX/8,height*0.65-rectX/8,rectX*1.2,rectY*1.4);
+        fill(54, 47, 217);
+        //fill(255, 191, 0);
+        noStroke();
+        textAlign(LEFT);
+        textSize(16);
+        textFont('Lucida Console');
+        text(shadows[i].catchPhrase,width*0.2,height*0.65,rectX);
       } else {
         shadows[i].locked = false;
-      }
+      } 
     }
     else{
       shadows[i].locked = false;
     }
-
+      
 
   }
 
-  pop();
+  pg.pop();
   
 
 }
