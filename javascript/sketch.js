@@ -5,7 +5,8 @@ class Shadow {
   // this constructor is called when we define new Creature(...)
   constructor(_x, _y) {
     this.location = new createVector(_x, _y);  // Location of shape
-    this.velocity = new createVector(random(-2,2),random(-2,2));  // Velocity of shape
+    this.startVelocity = new createVector(random(-2,2),random(-2,2));  // Velocity of shape
+    this.velocity=this.startVelocity;
     this.diameter;
     this.color = color(0);
     this.outline = color(0);
@@ -21,9 +22,8 @@ class Shadow {
 
   caught(){
     let d = dist(this.location.x, this.location.y, mouseX, mouseY);
-    let time = millis()/10;
     this.normalOff = this.normalOff + 0.01;
-    console.log("normal",this.normalOff);
+    
     this.emergencyOff=this.emergencyOff + 0.4;
     let n= fract(noise(this.normalOff));
     let e = fract(noise(this.emergencyOff));
@@ -36,7 +36,7 @@ class Shadow {
     } else {
       this.outline= color(54, 47, 217);
       this.color= color(n*255, 241, 223,200);
-      console.log("n",n);
+      
       this.overBox = false;
     }
   }
@@ -44,8 +44,6 @@ class Shadow {
 
   update() {
 
-
-    //this.velocity.limit(this.speedLimit);
     // Add velocity to the location.
     this.location.add(this.velocity);
 
@@ -206,7 +204,7 @@ for(let i = 0; i < 40; i++){
 
   pg.pop();
   
-
+console.log("im fast",shadows[33].velocity.x);
 }
 
 
@@ -235,27 +233,27 @@ function drawSetting(){
       shadows[i].velocity.y=0;
     }
     else if(seacreatures[i].speed=="Very slow"){
-      shadows[i].velocity.x*=0.5;
-      shadows[i].velocity.y*=0.5;
+      shadows[i].velocity.x=shadows[i].startVelocity.x*0.5;
+      shadows[i].velocity.y=shadows[i].startVelocity.y*0.5;
     }
     else if(seacreatures[i].speed=="Slow"){
-      shadows[i].velocity.x*=0.8;
-      shadows[i].velocity.y*=0.8;
+      shadows[i].velocity.x=shadows[i].startVelocity.x*0.8;
+      shadows[i].velocity.y=shadows[i].startVelocity.y*0.8;
     }
     else if(seacreatures[i].speed=="Medium"){
-      shadows[i].velocity.x*=1.1;
-      shadows[i].velocity.y*=1.1;
+      shadows[i].velocity.x=shadows[i].startVelocity.x*1.1;
+      shadows[i].velocity.y=shadows[i].startVelocity.y*1.1;
     }
     else if(seacreatures[i].speed=="Fast"){
-      shadows[i].velocity.x*=1.5;
-      shadows[i].velocity.y*=1.5;
+      shadows[i].velocity.x=shadows[i].startVelocity.x*1.5;
+      shadows[i].velocity.y=shadows[i].startVelocity.y*1.5;
     }
 
     //set the img
     img = loadImage(seacreatures[i].image_uri);
     shadows[i].catchPhrase= seacreatures[i].catchphrase;
     shadows[i].imageUri=img;
-
+    console.log("the speed of i",shadows[i].velocity.x);
 
   }
    
