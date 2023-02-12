@@ -137,20 +137,21 @@ function draw() {
   //textFont('Segoe UI Semibold');
   stroke(54, 47, 217);
   fill(54, 47, 217);
-  textSize(40);
+  textSize(map(width,0,1500,66,46));
   //textFont('Segoe UI Black');
   textFont('Lucida Console');
   textAlign(LEFT,TOP);
-  text("Sea Creatures in Animal Crossing: New Horizons",width*0.04,height*0.5,width*0.01);
+  text("Sea Creatures in \nAnimal Crossing: New Horizons",width*0.04,height*0.35,width*0.01);
   textFont('Segoe UI Semilight');
-  textSize(30);
+  textSize(map(width,0,1500,50,30));
+  //textSize(30);
   noStroke();
   textAlign(RIGHT,TOP);
   fill(234, 143, 234);
-  //text("This graph compares two features of each sea creature in the social simulation video game, Animal Crossing: New Horizons.",100,200,300,200);
-  text("Press on the running sea creatures to catch them! Please refer to this bar chart to have a look of the value of each creature and the corresponding shadow size via the link here.Enjoy your fisher time!",width*0.85,height*0.12,map(width,0,1500,600,200));
-  let a = createA('http://p5js.org/', 'this is a link');
-  a.position(0, 0);
+ 
+  text("Press on the running sea creatures to catch them! \nPlease refer to this bar chart via the link at the bottom to have a look of the value of each creature and the corresponding shadow size.\nEnjoy your fisher time!",width*0.98-map(width,0,1500,400,250),height*0.12,map(width,0,1500,400,250));
+  let a = createA('https://cheerlizz.github.io/SeaCreatures-in-AnimalCrossing/', "Here is the link \n(You need to open link in a new tab if using a laptop)");
+  a.position(width*0.85,height*0.9);
   image(bubble,width/2,height/2,0.8*width,0.8*width);
 
 for(let i = 0; i < 40; i++){
@@ -207,22 +208,6 @@ for(let i = 0; i < 40; i++){
   
 
 }
-
-// function mousePressed() {
-//   for(let i=0; i<seacreatures.length; i++){
-    
-    
-
-//   }
-// }
-
-// function mouseReleased() {
-
-//   for(let i=0; i<seacreatures.length; i++){
-    
-//   }
-  
-// }
 
 
 function drawSetting(){
