@@ -148,7 +148,7 @@ function draw() {
   fill(234, 143, 234);
  
   text("Press on the running sea creatures to catch them! \nPlease refer to this bar chart via the link at the bottom to have a look of the value of each creature and the corresponding shadow size.\nEnjoy your fisher time!",width*0.98-map(width,0,1500,400,250),height*0.12,map(width,0,1500,400,250));
-  let a = createA('https://cheerlizz.github.io/SeaCreatures-in-AnimalCrossing/', "Here is the link \n(You need to open link in a new tab if using a laptop)");
+  let a = createA('https://cheerlizz.github.io/SeaCreatures-in-AnimalCrossing/', "Here is the link \n(You need to open link in a new tab)");
   a.position(width*0.85,height*0.9);
   image(bubble,width/2,height/2,0.8*width,0.8*width);
 
